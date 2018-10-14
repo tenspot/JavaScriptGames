@@ -7,10 +7,13 @@ export default class Ball {
     this.gameHeight = game.gameHeight;
 
     this.game = game;
+    this.size = 20;
+    this.reset();
+  }
 
+  reset() {
     this.position = { x: 10, y: 400 };
     this.speed = { x: 2, y: -2 };
-    this.size = 20;
   }
 
   draw(ctx) {
@@ -32,9 +35,15 @@ export default class Ball {
       this.speed.x = -this.speed.x;
     }
 
-    // Wall on top or bottom
-    if (this.position.y + this.size > this.gameHeight || this.position.y < 0) {
+    // Wall on top
+    if (this.position.y < 0) {
       this.speed.y = -this.speed.y;
+    }
+
+    // bottom of game
+    if (this.position.y + this.size > this.gameHeight) {
+      this.game.lives--;
+      this.reset();
     }
 
     // Check for collision with paddle
